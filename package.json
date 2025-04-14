@@ -1,0 +1,14 @@
+{
+  "name": "ds-and-algo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/shahpranaf/ds-and-algo.git",
+  "author": "<shahpranaf@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

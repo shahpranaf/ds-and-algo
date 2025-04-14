@@ -1,41 +1,85 @@
 class MyStack {
-    constructor() {
-        this.stack = [];
+    constructor(capacity) {
+        this.capacity = capacity;
+        this.stack = new Array(capacity);
+        this.top = -1;
     }
 
-    isEmpty() { // O(1)
-        return this.stack.length === 0;
-    }
-
-    push(data) { // O(1)
-        this.stack.push(data);
-    }
-
-    pop() { // O(1)
-        if (this.isEmpty()) {
-            throw new Error("Stack is empty");
+    push(value) {
+        if(this.top === this.capacity-1) {
+            throw new Error("Stack Overflow! Cannot push ${value}")
+            return;
         }
+        this.stack[++this.top] = value;
+    }
+
+    pop() {
+        if(this.isEmpty()) {
+            throw new Error("Stack Underflow! Stack is empty");
+            return;
+        }
+
+        this.top = this.top - 1;
         return this.stack.pop();
+
+        // simplify : return this.stack[this.top--];
     }
 
-    peek() { // O(1)
-        if (this.isEmpty()) {
-            throw new Error("Stack is empty");
+    peek() {
+        if(this.isEmpty()) {
+            throw new Error("Stack Underflow! Stack is empty");
+            return;
         }
-        return this.stack[this.stack.length - 1];
+
+        return this.stack[this.top]
+    }
+
+    isEmpty() {
+        return this.top === -1;
     }
 }
 
-const Stack = new MyStack();
 
 
-Stack.push("http://www.google.com")
-Stack.push("http://www.ds.com")
-Stack.push("http://www.algo.com")
-console.log(Stack.peek())
+// 🧪 Tests
+const {
+    runTest,
+    runTestShouldThrow,
+    testSummary,
+    resetTests
+  } = require('../testRunner');
 
-Stack.push("http://www.yahoo.com")
-console.log(Stack.peek())
+const s = new MyStack(2);
 
-console.log(Stack.pop())
-console.log(Stack.peek())
+runTest("isEmpty should be true on new stack", () => {
+  if (!s.isEmpty()) throw new Error("Expected empty stack");
+});
+
+runTest("push and peek", () => {
+  s.push(10);
+  if (s.peek() !== 10) throw new Error("Expected 10 on top");
+});
+
+runTest("push second item", () => {
+  s.push(20);
+  if (s.peek() !== 20) throw new Error("Expected 20 on top");
+});
+
+runTest("pop should return 20", () => {
+  const val = s.pop();
+  if (val !== 20) throw new Error("Expected 20");
+});
+
+runTestShouldThrow("pop on empty stack", () => {
+  s.pop(); // first pop is fine
+  s.pop(); // second pop should throw
+});
+
+runTestShouldThrow("push beyond capacity", () => {
+  const s2 = new MyStack(1);
+  s2.push(1);
+  s2.push(2);
+});
+
+// ✅ Summary
+testSummary();
