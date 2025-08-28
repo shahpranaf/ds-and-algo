@@ -1,5 +1,7 @@
 class Solution {
     isValid(s) {
+        if(s.length % 2 !== 0) return false;
+        
         // Creating a stack to keep track of opening parentheses
         let stack = [];
         
